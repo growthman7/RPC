@@ -1,0 +1,330 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPS</title>
+    <link rel="shortcut icon" href="image.png" type="image/x-icon">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .jeux{
+            color: white;
+            width: 100%;
+            height: 100vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            background-color: #333;
+            
+        }
+
+        button{
+            width: 13vw;
+            border-radius: 10px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background: #fcfbfb;
+            color: black;
+            box-shadow: 0 2px 4px white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .boutton{
+            margin-top: 45px;
+        }
+
+        button:disabled{
+            background: #f20606;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 576px) {
+            .jeux{
+                color: white;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                background-color: #333;
+                
+            }
+            button{
+                width: 31%;
+                border-radius: 10px;
+                letter-spacing: 1px;
+                font-weight: bold;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                background: #fcfbfb;
+                color: black;
+                box-shadow: 0 2px 4px white;
+                padding: 5px;
+                text-align: center;
+            }
+
+            #text{
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="jeux">
+        
+        <div class="game">
+            <img src="" alt="" id="moi" width="115px">
+            <h2 id="nom"></h2>
+            <div class="boutton">
+                <button id="rock" onclick="play(1)">Rock</button>
+                <button id="paper" onclick="play(2)">paper</button>
+                <button id="sci" onclick="play(3)">scissor</button>
+            </div>
+        </div>
+        
+        <div>
+            <h1 id="text">VS</h1>
+        </div>
+
+        <div>
+            <img src="" alt="" id="ia" width="115px">
+            <h2>IA</h2>
+        </div>
+
+        <div>
+            <button id="replay" class="replay" disabled>Replay</button>
+        </div> 
+    </div>
+    
+
+    <script>
+    var text,enter_nom, nom, choix_moi=0, choix_ia=0,score_moi=0,score_ia=0,img_ia,img_moi, tour=0;
+
+        enter_nom = prompt("Entrer votre nom");
+        nom = document.getElementById('nom');
+        nom.innerHTML = enter_nom.toUpperCase();//le nom entree est en majuscule
+
+        
+
+        img_ia= document.getElementById('ia');
+
+        img_moi= document.getElementById('moi');
+
+        text=document.getElementById('text');
+
+        //Dans ce bout de code
+            document.getElementById('rock').disabled=true;//le bouton sera désactivé
+            document.getElementById('paper').disabled=true;//le bouton sera désactivé
+            document.getElementById('sci').disabled=true;//le bouton sera désactivé
+            setTimeout(function(){
+                text.innerHTML='MANCHE 1';
+            },2000);//Dans un délai de 3s on affichera 'MANCHE 1'
+            setTimeout(function(){
+            document.getElementById('rock').disabled=false;//le bouton sera activé dans un délai de 3S
+            document.getElementById('paper').disabled=false;//le bouton sera activé dans un délai de 3S
+            document.getElementById('sci').disabled=false;//le bouton sera activé dans un délai de 3S   
+            },2000);
+
+    function play(choix_moi){
+        //choix aléatoire de l'ia
+        choix_ia=Math.floor(Math.random()*3)+1;
+        console.log(choix_ia);
+
+            
+        //Les choix relatifs à la pierre
+        if(choix_moi==1 && choix_ia==1){
+            img_moi.src = 'rock.png';
+            img_ia.src= 'rock.png';
+            text.innerHTML='EGALITE';
+            tour++;
+        }
+        if(choix_moi==1 && choix_ia==2){
+            img_moi.src = 'rock.png';
+            img_ia.src= 'paper.png';
+            text.innerHTML='VICTOIRE IA';
+            score_ia++;
+            tour++
+        }
+        if(choix_moi==1 && choix_ia==3){
+            img_moi.src = 'rock.png';
+            img_ia.src= 'scissors.png';
+            text.innerHTML='VICTOIRE '+ enter_nom.toUpperCase() +'';
+            tour++;
+            score_moi++;
+        }
+
+        //les choix relatifs a la feuille
+        if(choix_moi==2 && choix_ia==2){
+            img_moi.src = 'paper.png';
+            img_ia.src= 'paper.png';
+            text.innerHTML='EGALITE';
+            tour++;
+
+        }
+        if(choix_moi==2 && choix_ia==3){
+            img_moi.src = 'paper.png';
+            img_ia.src= 'scissors.png';
+            text.innerHTML='VICTOIRE IA';
+            tour++;
+            score_ia++;
+        }
+        if(choix_moi==2 && choix_ia==1){
+            img_moi.src = 'paper.png';
+            img_ia.src= 'rock.png';
+            text.innerHTML='VICTOIRE '+ enter_nom.toUpperCase() +'';
+            tour++;
+            score_moi++;
+        }
+
+        //les choix relatifs au ciseau
+        if(choix_moi==3 && choix_ia==3){
+            img_moi.src = 'scissors.png';
+            img_ia.src= 'scissors.png';
+            text.innerHTML='EGALITE';
+            tour++;
+
+        }
+        if(choix_moi==3 && choix_ia==1){
+            img_moi.src = 'scissors.png';
+            img_ia.src= 'rock.png';
+            text.innerHTML='VICTOIRE IA';
+            tour++;
+            score_ia++;
+        }
+        if(choix_moi==3 && choix_ia==2){
+            img_moi.src = 'scissors.png';
+            img_ia.src= 'paper.png';
+            text.innerHTML='VICTOIRE '+ enter_nom.toUpperCase() +'';
+            tour++;
+            score_moi++;
+        }
+
+        console.log(tour);
+        console.log(score_ia);
+        console.log(score_moi);
+
+        if(tour==1){
+            document.getElementById('rock').disabled=true;
+            document.getElementById('paper').disabled=true;
+            document.getElementById('sci').disabled=true;
+            setTimeout(function(){
+                text.innerHTML='MANCHE 2';
+            },3000);
+            setTimeout(function(){
+            document.getElementById('rock').disabled=false;
+            document.getElementById('paper').disabled=false;
+            document.getElementById('sci').disabled=false;   
+            },4000);
+            document.getElementById('replay').disabled=true;
+        }
+
+        if(tour==2){
+            document.getElementById('rock').disabled=true;
+            document.getElementById('paper').disabled=true;
+            document.getElementById('sci').disabled=true;
+            setTimeout(function(){
+                text.innerHTML='MANCHE 3';
+            },3000);
+            setTimeout(function(){
+            document.getElementById('rock').disabled=false;
+            document.getElementById('paper').disabled=false;
+            document.getElementById('sci').disabled=false;   
+            },4000);
+            
+            document.getElementById('replay').disabled=true;
+        }
+
+        if(tour==3){
+            setTimeout(function(){
+                text.innerHTML='FIN DU JEUX';
+            },2000);
+            setTimeout(function(){
+            document.getElementById('rock').disabled=true;
+            document.getElementById('paper').disabled=true;
+            document.getElementById('sci').disabled=true;   
+            },1000);
+            if(score_moi==score_ia){
+                setTimeout(function(){
+                    text.innerHTML='EGALITE';
+                },3000);
+                setTimeout(function(){
+                    document.getElementById('rock').disabled=true;
+                    document.getElementById('paper').disabled=true;
+                    document.getElementById('sci').disabled=true;   
+                    },1000);
+            }
+            if(score_moi>score_ia){
+                setTimeout(function(){
+                    text.innerHTML='GAGNANT: '+ enter_nom.toUpperCase();
+                },3000);
+                setTimeout(function(){
+                    document.getElementById('rock').disabled=true;
+                    document.getElementById('paper').disabled=true;
+                    document.getElementById('sci').disabled=true;   
+                    },1000);
+            }
+            if(score_moi<score_ia){
+                setTimeout(function(){
+                    text.innerHTML='GAGNANT: IA';
+                },3000);
+                setTimeout(function(){
+                    document.getElementById('rock').disabled=true;
+                    document.getElementById('paper').disabled=true;
+                    document.getElementById('sci').disabled=true;   
+                    },1000);
+            }
+            
+            //TOUT CONCERNANT LE BOUTON REPLAY
+            setTimeout(function(){
+                document.getElementById('replay').disabled=false;
+            },1000);
+
+            document.getElementById('replay').addEventListener('click',()=>{
+                document.getElementById('replay').disabled=false;
+                tour=0;
+                score_ia=0;
+                score_moi=0;
+                img_moi.src= '';
+                img_ia.src='';
+                setTimeout(function(){
+                    text.innerHTML='VS';
+                },1000);
+                setTimeout(function(){
+                    document.getElementById('rock').disabled=false;
+                    document.getElementById('paper').disabled=false;
+                    document.getElementById('sci').disabled=false;   
+                },  1000);
+                setTimeout(function(){
+                    text.innerHTML='MANCHE 1';
+                },2000);
+            });
+        }
+
+
+
+
+    }
+
+
+
+
+    </script>
+</body>
+</html>
